@@ -45,5 +45,39 @@ function updateUI(data, term){
         `).join('')
     }
 }
+
+//Fetch meal by ID
+async function getMealById(mealID){
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
+    const data = await response.json()
+    const meal = data.meals[0]
+    console.log(meal)
+
+    //create a function updating this UI with the provided data
+    addMealToDOM(meal)
+}
+
+//Add meal to DOM
+function addMealToDOM(meal){
+    
+}
+
+
 // Event Listner for when we search
 submit.addEventListener('submit', searchMeal)
+
+//Event Listener for each meal clicked(can get a little tricky)
+mealsEl.addEventListener('click', e => {
+    const mealInfo = e.path.find(item => {
+        if(item.classList){
+            return item.classList.contains('meal-info');
+        }else{
+            return false;
+        }
+    })
+    // console.log(mealInfo)
+    if (mealInfo){
+        const mealID = mealInfo.getAttribute('data-mealid')
+        getMealById(mealID);
+    }
+})
