@@ -57,6 +57,20 @@ async function getMealById(mealID){
     addMealToDOM(meal)
 }
 
+//Fetch random meal from API
+async function getRandomMeal(){
+    //Clear meals and heading
+    mealsEl.innerHTML = '';
+    resultHeading.innerHTML = '';
+
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
+    const data = await response.json()
+    const randomMeal = data.meals[0]
+
+    addMealToDOM(randomMeal)
+}
+
+
 //Add meal to DOM
 function addMealToDOM(meal){
     const ingredients = [];
@@ -91,6 +105,7 @@ function addMealToDOM(meal){
 
 // Event Listner for when we search
 submit.addEventListener('submit', searchMeal)
+random.addEventListener('click', getRandomMeal)
 
 //Event Listener for each meal clicked(can get a little tricky)
 mealsEl.addEventListener('click', e => {
